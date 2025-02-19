@@ -17,7 +17,7 @@ export const initializeBoard = (tasks: Task[]) => {
 
 export const findBoardSectionContainer = (
   boardSections: BoardSections,
-  id: number
+  id: string
 ) => {
   if (id in boardSections) {
     return id;

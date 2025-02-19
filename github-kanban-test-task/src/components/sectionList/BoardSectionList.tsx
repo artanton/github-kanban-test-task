@@ -1,5 +1,5 @@
-import { Container, Grid, GridItem } from '@chakra-ui/react';
-import React, { useState } from 'react';
+import { Container, Grid, GridItem } from "@chakra-ui/react";
+import { useState } from "react";
 // import Container from '@mui/material/Container';
 // import Grid from '@mui/material/Grid';
 import {
@@ -15,31 +15,27 @@ import {
   DragOverlay,
   DropAnimation,
   defaultDropAnimation,
-} from '@dnd-kit/core';
-import { sortableKeyboardCoordinates, arrayMove } from '@dnd-kit/sortable';
-import {taskFromBack} from '../../../fakeData'
-import { Status } from '../../types/types';
+} from "@dnd-kit/core";
+import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
+import { taskFromBack } from "../../../fakeData";
+import { Status } from "../../types/types";
 
-import { findBoardSectionContainer, initializeBoard } from '../../utils/board';
-import BoardSection from '../sectionItem/BoardSection';
-import TaskItem from '../taskItem/TaskItem';
-import { getTaskById } from '../../utils/tasks';
-import { BoardSections as BoardSectionsType } from '../../types/types';
-import { BOARD_SECTIONS } from '@/constants';
+import { findBoardSectionContainer, initializeBoard } from "../../utils/board";
+import BoardSection from "../sectionItem/BoardSection";
+import TaskItem from "../taskItem/TaskItem";
+import { getTaskById } from "../../utils/tasks";
+import { BoardSections as BoardSectionsType } from "../../types/types";
+import { BOARD_SECTIONS } from "@/constants";
 
-const INITIAL_TASKS = taskFromBack.map(issue=>(
-    {
-        id: issue.id,
-        // number: issue.number,
-        title: issue.title,
-        status: issue.state as Status, 
-        description: issue.body,
-        // comments: issue.comments,
-        // userType: issue.user.type,
-        // createdAt: issue.created_at
-    }
-));
-
+const INITIAL_TASKS = taskFromBack.map((issue) => ({
+  id: issue.id.toString(),
+  number: issue.number,
+  title: issue.title,
+  status: issue.state as Status, 
+  comments: issue.comments,
+  userType: issue.user.type,
+  createdAt: issue.created_at
+}));
 
 const BoardSectionList = () => {
   const tasks = INITIAL_TASKS;
@@ -47,7 +43,7 @@ const BoardSectionList = () => {
   const [boardSections, setBoardSections] =
     useState<BoardSectionsType>(initialBoardSections);
 
-  const [activeTaskId, setActiveTaskId] = useState<null | number>(null);
+  const [activeTaskId, setActiveTaskId] = useState<null | string>(null);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -57,18 +53,18 @@ const BoardSectionList = () => {
   );
 
   const handleDragStart = ({ active }: DragStartEvent) => {
-    setActiveTaskId(active.id as number);
+    setActiveTaskId(active.id as string);
   };
 
   const handleDragOver = ({ active, over }: DragOverEvent) => {
     // Find the containers
     const activeContainer = findBoardSectionContainer(
       boardSections,
-      active.id as number
+      active.id as string
     );
     const overContainer = findBoardSectionContainer(
       boardSections,
-      over?.id as number
+      over?.id as string
     );
 
     if (
@@ -111,11 +107,11 @@ const BoardSectionList = () => {
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
     const activeContainer = findBoardSectionContainer(
       boardSections,
-      active.id as number
+      active.id as string
     );
     const overContainer = findBoardSectionContainer(
       boardSections,
-      over?.id as number
+      over?.id as string
     );
 
     if (
@@ -162,13 +158,25 @@ const BoardSectionList = () => {
         onDragOver={handleDragOver}
         onDragEnd={handleDragEnd}
       >
-        <Grid templateColumns="repeat(3, 1fr)" gap="4">
+        <Grid
+          style={{ padding: "20px" }}
+          templateColumns="repeat(3, 1fr)"
+          gap="14"
+        >
           {Object.keys(boardSections).map((boardSectionKey) => (
-            <GridItem colSpan={2} key={boardSectionKey}>
+            <GridItem
+              
+              colSpan={1}
+              key={boardSectionKey}
+            >
               <BoardSection
-                id={parseInt(boardSectionKey, 10)} 
-                title={BOARD_SECTIONS[boardSectionKey as keyof typeof BOARD_SECTIONS]}
+              
+                id={boardSectionKey}
+                title={
+                  BOARD_SECTIONS[boardSectionKey as keyof typeof BOARD_SECTIONS]
+                }
                 tasks={boardSections[boardSectionKey]}
+                
               />
             </GridItem>
           ))}

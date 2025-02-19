@@ -1,10 +1,13 @@
-export type Status = 'Open' | 'In progress' | 'Done';
+export type Status = "Open" | "In progress" | "Done";
 
 export type Task = {
-  id: number;
+  id: string;
   title: string;
-  description: string | null;
   status: Status;
+  number: number;
+  comments: number;
+  userType: string;
+  createdAt: string;
 };
 
 export type BoardSections = {

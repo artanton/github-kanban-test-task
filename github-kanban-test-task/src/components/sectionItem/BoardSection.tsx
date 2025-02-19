@@ -1,4 +1,3 @@
-import React from "react";
 // import Box from "@mui/material/Box";
 import { useDroppable } from "@dnd-kit/core";
 import {
@@ -12,29 +11,31 @@ import SortableTaskItem from "../taskList/TaskList";
 import { Box } from "@chakra-ui/react";
 
 type BoardSectionProps = {
-  id: number;
+  id: string;
   title: string;
   tasks: Task[];
 };
 
 const BoardSection = ({ id, title, tasks }: BoardSectionProps) => {
   const { setNodeRef } = useDroppable({
-    id: id.toString(),
+    id,
   });
 
   return (
-    <Box >
-      {/* <Typography variant="h6" sx={{ mb: 2 }}> */}
+    <Box>
+      <Box fontSize="lg" fontWeight="bold" mb={2} textAlign={"center"}>
         {title}
-      {/* </Typography> */}
+      </Box>
+      <Box  p = '8' border="1px solid black" backgroundColor="#bdbcbc">
       <SortableContext
-        id={id.toString()}
+        id={id}
         items={tasks}
         strategy={verticalListSortingStrategy}
+        
       >
-        <div ref={setNodeRef}>
+        <div ref={setNodeRef} >
           {tasks.map((task) => (
-            <Box key={task.id} >
+            <Box key={task.id} mb={4}  border="1px solid black" borderRadius="md">
               <SortableTaskItem id={task.id}>
                 <TaskItem task={task} />
               </SortableTaskItem>
@@ -42,6 +43,7 @@ const BoardSection = ({ id, title, tasks }: BoardSectionProps) => {
           ))}
         </div>
       </SortableContext>
+      </Box>
     </Box>
   );
 };

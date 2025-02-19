@@ -43,7 +43,7 @@ export const taskFromBack = [
                 "description": ""
             }
         ],
-        "state": "open",
+        "state": "done",
         "locked": false,
         "assignee": null,
         "assignees": [],
@@ -129,7 +129,7 @@ export const taskFromBack = [
                 "description": "Opened by a member of the React Core Team"
             }
         ],
-        "state": "open",
+        "state": "done",
         "locked": false,
         "assignee": null,
         "assignees": [],
