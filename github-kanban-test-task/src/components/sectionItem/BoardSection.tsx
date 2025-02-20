@@ -23,7 +23,7 @@ const BoardSection = ({ id, title, tasks }: BoardSectionProps) => {
 
   return (
     <Box>
-      <Box fontSize="lg" fontWeight="bold" mb={2} textAlign={"center"}>
+      <Box fontSize="2xl" fontWeight="bold" mb={2} textAlign={"center"}>
         {title}
       </Box>
       <Box  p = '8' border="1px solid black" backgroundColor="#bdbcbc">

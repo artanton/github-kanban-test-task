@@ -1,5 +1,5 @@
 import { Container, Grid, GridItem } from "@chakra-ui/react";
-import { useState } from "react";
+import {useEffect, useState } from "react";
 // import Container from '@mui/material/Container';
 // import Grid from '@mui/material/Grid';
 import {
@@ -17,33 +17,45 @@ import {
   defaultDropAnimation,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
-import { taskFromBack } from "../../../fakeData";
-import { Status } from "../../types/types";
 
-import { findBoardSectionContainer, initializeBoard } from "../../utils/board";
+import { findBoardSectionContainer } from "../../utils/board";
 import BoardSection from "../sectionItem/BoardSection";
 import TaskItem from "../taskItem/TaskItem";
-import { getTaskById } from "../../utils/tasks";
+import { getTaskById, taskToArray } from "../../utils/tasks";
 import { BoardSections as BoardSectionsType } from "../../types/types";
 import { BOARD_SECTIONS } from "@/constants";
+import { selectTasks } from "@/redux/selectors.ts";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { updateByUser } from "@/redux/taskSlice";
 
-const INITIAL_TASKS = taskFromBack.map((issue) => ({
-  id: issue.id.toString(),
-  number: issue.number,
-  title: issue.title,
-  status: issue.state as Status, 
-  comments: issue.comments,
-  userType: issue.user.type,
-  createdAt: issue.created_at
-}));
+// const INITIAL_TASKS = taskFromBack.map((issue) => ({
+//   id: issue.id.toString(),
+//   repository_url:issue.repository_url,
+//   number: issue.number,
+//   title: issue.title,
+//   status: issue.state as Status, 
+//   comments: issue.comments,
+//   userType: issue.user.type,
+//   createdAt: issue.created_at
+// }));
 
 const BoardSectionList = () => {
-  const tasks = INITIAL_TASKS;
-  const initialBoardSections = initializeBoard(INITIAL_TASKS);
+  const allTasks = useSelector(selectTasks);
+  const dispatch = useDispatch<AppDispatch>();
+
+  const tasks = taskToArray(allTasks);
+  
+  // const initialBoardSections = initializeBoard([]);
   const [boardSections, setBoardSections] =
-    useState<BoardSectionsType>(initialBoardSections);
+    useState<BoardSectionsType>(allTasks);    
 
   const [activeTaskId, setActiveTaskId] = useState<null | string>(null);
+  useEffect(()=>{setBoardSections(allTasks)},[allTasks])
+
+useEffect(()=>{
+  dispatch(updateByUser(boardSections));
+},[boardSections])
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -159,7 +171,7 @@ const BoardSectionList = () => {
         onDragEnd={handleDragEnd}
       >
         <Grid
-          style={{ padding: "20px" }}
+          style={{ padding: "40px" }}
           templateColumns="repeat(3, 1fr)"
           gap="14"
         >
