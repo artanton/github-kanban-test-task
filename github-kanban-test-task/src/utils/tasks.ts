@@ -24,3 +24,15 @@ export const taskToArray = (allTasks: BoardSections) => {
   }
   return array;
 };
+
+export const updateTaskStatus = (tasks:BoardSections)=>{
+  const updatedTasks: BoardSections = {};
+
+  for(const key in  tasks){
+    updatedTasks[key] = tasks[key].map((task: Task) => ({
+      ...task,
+      status: key as Status  
+    }))
+ }
+  return updatedTasks;
+}

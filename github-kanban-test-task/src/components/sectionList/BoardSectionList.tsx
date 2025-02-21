@@ -1,7 +1,10 @@
+import { selectTasks } from "@/redux/selectors.ts";
+import { useEffect, useRef, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { AppDispatch } from "@/redux/store";
+import { updateByUser } from "@/redux/taskSlice";
+import { isEqual } from "lodash";
 import { Container, Grid, GridItem } from "@chakra-ui/react";
-import {useEffect, useState } from "react";
-// import Container from '@mui/material/Container';
-// import Grid from '@mui/material/Grid';
 import {
   useSensors,
   useSensor,
@@ -17,45 +20,41 @@ import {
   defaultDropAnimation,
 } from "@dnd-kit/core";
 import { sortableKeyboardCoordinates, arrayMove } from "@dnd-kit/sortable";
-
-import { findBoardSectionContainer } from "../../utils/board";
+import { BOARD_SECTIONS } from "@/constants";
 import BoardSection from "../sectionItem/BoardSection";
 import TaskItem from "../taskItem/TaskItem";
+import { findBoardSectionContainer } from "../../utils/board";
 import { getTaskById, taskToArray } from "../../utils/tasks";
 import { BoardSections as BoardSectionsType } from "../../types/types";
-import { BOARD_SECTIONS } from "@/constants";
-import { selectTasks } from "@/redux/selectors.ts";
-import { useDispatch, useSelector } from "react-redux";
-import { AppDispatch } from "@/redux/store";
-import { updateByUser } from "@/redux/taskSlice";
-
-// const INITIAL_TASKS = taskFromBack.map((issue) => ({
-//   id: issue.id.toString(),
-//   repository_url:issue.repository_url,
-//   number: issue.number,
-//   title: issue.title,
-//   status: issue.state as Status, 
-//   comments: issue.comments,
-//   userType: issue.user.type,
-//   createdAt: issue.created_at
-// }));
 
 const BoardSectionList = () => {
   const allTasks = useSelector(selectTasks);
   const dispatch = useDispatch<AppDispatch>();
+  const [boardSections, setBoardSections] = useState<BoardSectionsType | null>(
+    null
+  );
+  const [activeTaskId, setActiveTaskId] = useState<null | string>(null);
 
   const tasks = taskToArray(allTasks);
-  
-  // const initialBoardSections = initializeBoard([]);
-  const [boardSections, setBoardSections] =
-    useState<BoardSectionsType>(allTasks);    
+  const prevTasksRef = useRef(allTasks);
 
-  const [activeTaskId, setActiveTaskId] = useState<null | string>(null);
-  useEffect(()=>{setBoardSections(allTasks)},[allTasks])
+  useEffect(() => {
+    if (!isEqual(prevTasksRef.current, allTasks)) {
+      setBoardSections(allTasks);
+      prevTasksRef.current = allTasks;
+    }
+  }, [allTasks]);
 
-useEffect(()=>{
-  dispatch(updateByUser(boardSections));
-},[boardSections])
+  useEffect(() => {
+    if (
+      boardSections !== null &&
+      !isEqual(prevTasksRef.current, boardSections)
+    ) {
+      dispatch(updateByUser(boardSections));
+    } else {
+      setBoardSections(allTasks);
+    }
+  }, [boardSections, dispatch]);
 
   const sensors = useSensors(
     useSensor(PointerSensor),
@@ -69,7 +68,8 @@ useEffect(()=>{
   };
 
   const handleDragOver = ({ active, over }: DragOverEvent) => {
-    // Find the containers
+    if (!boardSections) return;
+
     const activeContainer = findBoardSectionContainer(
       boardSections,
       active.id as string
@@ -88,10 +88,11 @@ useEffect(()=>{
     }
 
     setBoardSections((boardSection) => {
+      if (!boardSection) return boardSection;
+
       const activeItems = boardSection[activeContainer];
       const overItems = boardSection[overContainer];
 
-      // Find the indexes for the items
       const activeIndex = activeItems.findIndex(
         (item) => item.id === active.id
       );
@@ -117,6 +118,8 @@ useEffect(()=>{
   };
 
   const handleDragEnd = ({ active, over }: DragEndEvent) => {
+    if (!boardSections) return;
+
     const activeContainer = findBoardSectionContainer(
       boardSections,
       active.id as string
@@ -142,14 +145,18 @@ useEffect(()=>{
     );
 
     if (activeIndex !== overIndex) {
-      setBoardSections((boardSection) => ({
-        ...boardSection,
-        [overContainer]: arrayMove(
-          boardSection[overContainer],
-          activeIndex,
-          overIndex
-        ),
-      }));
+      setBoardSections((boardSection) => {
+        if (!boardSection) return boardSection;
+
+        return {
+          ...boardSection,
+          [overContainer]: arrayMove(
+            boardSection[overContainer],
+            activeIndex,
+            overIndex
+          ),
+        };
+      });
     }
 
     setActiveTaskId(null);
@@ -175,23 +182,20 @@ useEffect(()=>{
           templateColumns="repeat(3, 1fr)"
           gap="14"
         >
-          {Object.keys(boardSections).map((boardSectionKey) => (
-            <GridItem
-              
-              colSpan={1}
-              key={boardSectionKey}
-            >
-              <BoardSection
-              
-                id={boardSectionKey}
-                title={
-                  BOARD_SECTIONS[boardSectionKey as keyof typeof BOARD_SECTIONS]
-                }
-                tasks={boardSections[boardSectionKey]}
-                
-              />
-            </GridItem>
-          ))}
+          {boardSections &&
+            Object.keys(boardSections).map((boardSectionKey) => (
+              <GridItem colSpan={1} key={boardSectionKey}>
+                <BoardSection
+                  id={boardSectionKey}
+                  title={
+                    BOARD_SECTIONS[
+                      boardSectionKey as keyof typeof BOARD_SECTIONS
+                    ]
+                  }
+                  tasks={boardSections[boardSectionKey]}
+                />
+              </GridItem>
+            ))}
           <DragOverlay dropAnimation={dropAnimation}>
             {task ? <TaskItem task={task} /> : null}
           </DragOverlay>

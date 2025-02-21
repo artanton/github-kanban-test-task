@@ -13,9 +13,9 @@ export const RequestForm = () => {
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) =>
     setValue(event.target.value);
+
   const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-
     dispatch(fetchTasks(value));
   };
 

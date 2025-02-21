@@ -2,7 +2,7 @@ export type Status = "Open" | "In progress" | "Done";
 
 export type Task = {
   id: string;
-  repository_url:string;
+  repository_url: string;
   title: string;
   status: Status;
   number: number;
@@ -15,14 +15,27 @@ export interface GitHubIssue {
   repository_url: string;
   number: number;
   title: string;
-  state: string; // 'open' | 'closed'
+  state: string;
   comments: number;
   user: {
     type: string;
   };
   created_at: string;
 }
+export interface Star {
+  stargazers_count: number;
+}
 
 export type BoardSections = {
   [name: string]: Task[];
 };
+
+export interface BoardState {
+  boardSections: {
+    [name: string]: Task[];
+  };
+  repoName: string;
+  pepoRate: number;
+  isLoading: boolean;
+  error: null | string;
+}

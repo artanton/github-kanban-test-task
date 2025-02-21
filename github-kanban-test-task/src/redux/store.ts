@@ -17,7 +17,7 @@ import { boardReducer } from './taskSlice';
 const persistConfig = {
   key: 'board',
   storage,
-  whitelist: ['boardSections'],
+  whitelist: ['boardSections','pepoRate'],
 };
 
 const persistedRootReducer = persistReducer(persistConfig, boardReducer);
