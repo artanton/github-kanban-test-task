@@ -16,7 +16,7 @@ const initialState: BoardState = {
     done: [],
   },
   repoName: "",
-  pepoRate: 0,
+  repoRate: 0,
   isLoading: false,
   error: null,
 };
@@ -48,17 +48,15 @@ const boardSlice = createSlice({
         state.isLoading = false;
         state.error = null;
         state.repoName = action.payload.repoName;
-        state.pepoRate = action.payload.repoRate;
-        localStorage.setItem(
-          "RepoRate",
-          JSON.stringify(action.payload.repoRate.toString())
-        );
+        state.repoRate = action.payload.repoRate;
+
+        const loadingRepoName = action.payload.repoName;
         const taskPayload = action.payload.tasks;
 
-        const loadingRepoName = taskPayload[0]?.repository_url
-          .split("/")
-          .slice(-2)
-          .join("/");
+        localStorage.setItem(
+          "RepoRate",
+          JSON.stringify(action.payload.repoRate)
+        );
 
         localStorage.setItem("currentRepo", loadingRepoName);
         const storedBoard = getStoredBoardState(loadingRepoName);

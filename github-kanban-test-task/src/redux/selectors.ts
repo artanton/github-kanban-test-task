@@ -6,6 +6,6 @@ export const selectIsLoading =( state: RootState ) => state.isLoading
 
 export const selectError = ( state: RootState ) => state.error;
 
-export const selectPepoRate = ( state: RootState ) => state.pepoRate; 
+export const selectPepoRate = ( state: RootState ) => state.repoRate; 
 
 export const selectRepoName = ( state: RootState ) => state.repoName;

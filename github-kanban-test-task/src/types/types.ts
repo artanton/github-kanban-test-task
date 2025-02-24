@@ -35,7 +35,7 @@ export interface BoardState {
     [name: string]: Task[];
   };
   repoName: string;
-  pepoRate: number;
+  repoRate: number;
   isLoading: boolean;
   error: null | string;
 }

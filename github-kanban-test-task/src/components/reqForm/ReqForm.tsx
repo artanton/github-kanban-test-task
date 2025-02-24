@@ -20,15 +20,19 @@ export const RequestForm = () => {
   };
 
   return (
+    <div className="form-container">
+
     <form className="form" onSubmit={handleSubmit}>
       <Input
+        className="input"
         placeholder="Enter repo URL"
         value={value}
         onChange={handleChange}
       />
-      <Button mt={4} type="submit">
+      <Button className="button" type="submit">
         Load issues
       </Button>
     </form>
+    </div>
   );
 };

@@ -5,8 +5,8 @@ import { selectError, selectIsLoading, selectTasks } from "./redux/selectors";
 import { BoardSections } from "./types/types";
 
 import { Box } from "@chakra-ui/react";
-import { RepoSection } from "./components/repoSection/RepoSection";
-import './App.css';
+// import { RepoSection } from "./components/repoSection/RepoSection";
+
 
 export const App = () => {
   const allTasks = useSelector(selectTasks);
@@ -37,8 +37,8 @@ export const App = () => {
         </Box>
       )}
       {!isError && isTasks(allTasks) && 
-      <div className="app-container">
-      <RepoSection/>
+      <div>
+      
       <BoardSectionList />
       
       </div>}

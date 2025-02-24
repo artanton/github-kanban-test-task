@@ -14,7 +14,7 @@ export const RepoSection = () => {
   const repo = issuesUrl.split("/")[4];
 
   return (
-    <Box paddingLeft="20" spaceX="2">
+    <Box paddingLeft="8" spaceX="2">
       <HStack gap="1" fontSize="large" fontWeight="medium">
         <Link
           href={`${repoUrl}`}

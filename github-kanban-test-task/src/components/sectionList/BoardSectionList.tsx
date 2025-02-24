@@ -26,6 +26,7 @@ import TaskItem from "../taskItem/TaskItem";
 import { findBoardSectionContainer } from "../../utils/board";
 import { getTaskById, taskToArray } from "../../utils/tasks";
 import { BoardSections as BoardSectionsType } from "../../types/types";
+import { RepoSection } from "../repoSection/RepoSection";
 
 const BoardSectionList = () => {
   const allTasks = useSelector(selectTasks);
@@ -170,6 +171,7 @@ const BoardSectionList = () => {
 
   return (
     <Container>
+      <RepoSection/>
       <DndContext
         sensors={sensors}
         collisionDetection={closestCorners}
@@ -178,9 +180,9 @@ const BoardSectionList = () => {
         onDragEnd={handleDragEnd}
       >
         <Grid
-          style={{ padding: "40px" }}
-          templateColumns="repeat(3, 1fr)"
-          gap="14"
+          style={{ padding: "20px" }}
+          templateColumns="repeat(3, minmax(100px, 1fr))"
+          gap="8"
         >
           {boardSections &&
             Object.keys(boardSections).map((boardSectionKey) => (
