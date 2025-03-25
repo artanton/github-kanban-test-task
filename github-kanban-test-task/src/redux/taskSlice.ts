@@ -5,9 +5,9 @@ import {
   getStoredBoardState,
   initializeBoard,
   saveBoardState,
-} from "@/utils/board";
+} from "./../utils/board";
 import { Notify } from "notiflix/build/notiflix-notify-aio";
-import { taskToArray, updateTaskStatus } from "@/utils/tasks";
+import { taskToArray, updateTaskStatus } from "./../utils/tasks";
 
 const initialState: BoardState = {
   boardSections: {
