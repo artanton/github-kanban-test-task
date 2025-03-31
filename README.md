@@ -28,8 +28,8 @@ To set up the project locally, follow these steps:
 
 1. Ensure **Node.js LTS version** is installed.  
    - [Download and install Node.js](https://nodejs.org/en/) if necessary.  
-2. Install project dependencies:  `npm install`.
-3. Start the development server: `npm run dev`.
+2. Install project dependencies:  ```npm install```.
+3. Start the development server: ```npm run dev```.
 
 4. Open your browser and navigate to:
 [http://localhost:5173](http://localhost:5173). 
@@ -37,6 +37,7 @@ To set up the project locally, follow these steps:
 The page will reload automatically when changes are made.
 
 ## Project Structure
+```
 /
 ├── dist                    # Compiled and built project output
 ├── public                  # Static assets (icons, public files)
@@ -76,7 +77,7 @@ The page will reload automatically when changes are made.
 ├── tsconfig.node.json      # TypeScript config for Node.js files
 ├── eslint.config.js        # ESLint configuration
 ├── README.md               # This documentation file
-
+```
 
 ## How It Works
 1. Enter a GitHub repository URL (e.g., https://github.com/facebook/react) in the input field and press Load.
