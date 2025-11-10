@@ -13,6 +13,18 @@
 
 User preferences, including issue positions and order, are **persisted across sessions** to maintain custom arrangements.  
 
+## How It Works
+1. Enter a GitHub repository URL (e.g., https://github.com/facebook/react) in the input field and press Load.
+2. The app fetches issues from the repository using the GitHub API.
+3. Issues are categorized into:
+ - ToDo – All new issues.
+ - In Progress – Open issues with an assignee.
+ - Done – Closed issues.
+4. Drag and drop issues between columns to update their status and order.
+5. Changes are saved between sessions.
+6. Click on the repository name or owner's profile to visit them on GitHub.
+Enjoy building with GitHub Issues Board! 🚀
+
 ## Features  
 
 ✔ **Search by Repository** – Enter a GitHub repository URL and fetch issues dynamically.  
@@ -79,14 +91,4 @@ The page will reload automatically when changes are made.
 ├── README.md               # This documentation file
 ```
 
-## How It Works
-1. Enter a GitHub repository URL (e.g., https://github.com/facebook/react) in the input field and press Load.
-2. The app fetches issues from the repository using the GitHub API.
-3. Issues are categorized into:
- - ToDo – All new issues.
- - In Progress – Open issues with an assignee.
- - Done – Closed issues.
-4. Drag and drop issues between columns to update their status and order.
-5. Changes are saved between sessions.
-6. Click on the repository name or owner's profile to visit them on GitHub.
-Enjoy building with GitHub Issues Board! 🚀
+
