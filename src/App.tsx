@@ -7,7 +7,6 @@ import { BoardSections } from "./types/types";
 import { Box } from "@chakra-ui/react";
 // import { RepoSection } from "./components/repoSection/RepoSection";
 
-
 export const App = () => {
   const allTasks = useSelector(selectTasks);
   const isLoading = useSelector(selectIsLoading);
@@ -36,12 +35,21 @@ export const App = () => {
           Loading...
         </Box>
       )}
-      {!isError && isTasks(allTasks) && 
-      <div>
-      
-      <BoardSectionList />
-      
-      </div>}
+      {(!isError && isTasks(allTasks) && (
+        <div>
+          <BoardSectionList />
+        </div>
+      )) || (
+        <Box
+          display={"flex"}
+          justifyContent={"center"}
+          alignItems={"center"}
+          minHeight={"100vh"}
+        >
+          Enter a GitHub repository URL (e.g.,
+          https://github.com/facebook/react) in the input field and press Load.
+        </Box>
+      )}
     </>
   );
 };
