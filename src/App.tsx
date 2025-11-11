@@ -41,7 +41,16 @@ export const App = () => {
       
       <BoardSectionList />
       
-      </div>}
+      </div>||<Box
+        display={"flex"}
+        justifyContent={"center"} 
+        alignItems={"center"}
+        minHeight={"100vh"}
+        fontSize={"2xl"}
+      >
+        Enter a GitHub repository URL (e.g., https://github.com/facebook/react) in the input field and press Load.
+      </Box>
+      }
     </>
   );
 };
