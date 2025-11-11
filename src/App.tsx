@@ -48,7 +48,7 @@ export const App = () => {
         minHeight={"100vh"}
         fontSize={"2xl"}
       >
-        Enter a GitHub repository URL (e.g., https://github.com/facebook/react) in the input field and press Load.
+        Enter a GitHub repository URL (e.g., https://github.com/facebook/react-native) in the input field and press Load.
       </Box>
       }
     </>
