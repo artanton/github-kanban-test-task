@@ -25,7 +25,7 @@ export const RequestForm = () => {
     <form className="form" onSubmit={handleSubmit}>
       <Input
         className="input"
-        placeholder="Enter repo URL"
+        placeholder="Enter repo URL e.g., https://github.com/facebook/react"
         value={value}
         onChange={handleChange}
       />
